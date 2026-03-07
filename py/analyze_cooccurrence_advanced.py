@@ -41,6 +41,21 @@ INGREDIENT_MAP_ADV = {
     'vitamin b6': ['vitamin b6', '비타민 b6', '비타민b6']
 }
 
+KOR_NAMES = {
+    'magnesium': '마그네슘',
+    'theanine': '테아닌',
+    'valerian': '발레리안',
+    'gaba': '가바',
+    'ashwagandha': '아슈와간다',
+    'lemon balm': '레몬밤',
+    'chamomile': '카모마일',
+    'glycine': '글리신',
+    'melatonin': '멜라토닌',
+    '5-htp': '5-HTP',
+    'tryptophan': '트립토판',
+    'vitamin b6': '비타민B6'
+}
+
 def extract_ingredients(text_series):
     """텍스트 군에서 성분 리스트 추출 (한/영 통합 매핑)"""
     mapped_list = []
@@ -86,7 +101,14 @@ def compute_cooccurrence(ingredients_lists, title_prefix, file_suffix):
                 prob_matrix.loc[row_ing, col_ing] = co_matrix.loc[row_ing, col_ing] / total_row_count
                 
     plt.figure(figsize=(11, 9))
-    sns.heatmap(prob_matrix * 100, annot=True, fmt=".1f", cmap="YlOrRd", cbar_kws={'label': '동시 출현 확률 (%)'})
+    
+    # 한국어 라벨 적용
+    kor_labels = [KOR_NAMES.get(ing, ing) for ing in TARGET_INGREDIENTS]
+    plot_matrix = prob_matrix.copy()
+    plot_matrix.index = kor_labels
+    plot_matrix.columns = kor_labels
+
+    sns.heatmap(plot_matrix * 100, annot=True, fmt=".1f", cmap="YlOrRd", cbar_kws={'label': '동시 출현 확률 (%)'})
     
     plt.title(f'[{title_prefix}] 3040 타겟 영양제 주요 성분 간 짝꿍 상관관계\n(가로축 베이스 성분이 세로축 성분과 얼마나 함께 쓰이는가)', fontsize=14, pad=15)
     plt.xlabel('짝꿍 성분 (Co-ingredient)', fontsize=12)
@@ -105,10 +127,12 @@ def compute_cooccurrence(ingredients_lists, title_prefix, file_suffix):
     for base in bases:
         if base in prob_matrix.index and ing_counts.get(base, 0) > 0:
             top_partners = prob_matrix.loc[base].drop(base).sort_values(ascending=False).head(3)
-            print(f"\n🔹 베이스 [{base.upper()}] 사용 시 ({ing_counts[base]}개 제품 기준):")
+            kor_base = KOR_NAMES.get(base, base)
+            print(f"\n🔹 베이스 [{kor_base}] 사용 시 ({ing_counts[base]}개 제품 기준):")
             for partner, prob in top_partners.items():
                 if prob > 0:
-                    print(f"    - [{partner.upper()}] 비율: {prob*100:.1f}%")
+                    kor_partner = KOR_NAMES.get(partner, partner)
+                    print(f"    - [{kor_partner}] 비율: {prob*100:.1f}%")
 
 def run_cooccurrence_matrix_analysis():
     print("🚀 [3040 직장인 타겟] 성분 간 짝꿍 상관관계 (Co-occurrence Matrix) 분석 시작")
