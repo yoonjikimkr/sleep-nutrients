@@ -35,9 +35,9 @@ def analyze_all_ingredients():
         total_reviews=('review_count', 'sum')
     ).reset_index().sort_values('n_products', ascending=False)
     
-    # Print the true summary
-    print("=== True Ingredient Occurrence (Including Complex Formulas) ===")
-    print(summary.to_string(index=False))
+    # Print the true summary (Markdown table format for README)
+    print("\n### 📊 [iHerb 글로벌] 성분별 단순 등장 빈도 (Simple Frequency)")
+    print(summary.to_markdown(index=False))
     
     # Save the true summary
     summary.to_csv(os.path.join(DATA_DIR, 'iherb_true_ingredient_frequency.csv'), index=False)
