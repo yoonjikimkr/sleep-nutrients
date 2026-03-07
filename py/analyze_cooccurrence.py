@@ -8,7 +8,7 @@ plt.rcParams['font.family'] = 'AppleGothic'
 plt.rcParams['axes.unicode_minus'] = False
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")
+DATA_DIR = os.path.join(os.path.dirname(BASE_DIR), "data")
 DETAIL_CSV = os.path.join(DATA_DIR, "iherb_sleep_products_detailed.csv")
 
 def analyze_all_ingredients():
