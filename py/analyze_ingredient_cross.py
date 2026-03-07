@@ -9,49 +9,57 @@ DATA_DIR = os.path.join(os.path.dirname(BASE_DIR), "data")
 IHERB_CSV = os.path.join(DATA_DIR, "iherb_sleep_products_detailed.csv")
 NAVER_SHOP_PATTERN = os.path.join(DATA_DIR, "shop_*.csv")
 
-# 1. 성분명 정규화 맵 (영문 -> 한글 및 표준화)
+# 1. 성분명 표준화 매핑 (Canonical Korean Names) - 로버스트한 매핑
 INGREDIENT_MAP = {
-    'magnesium': '마그네슘',
-    'melatonin': '멜라토닌',
-    'theanine': '테아닌',
-    'valerian': '발레리안',
-    'chamomile': '카모마일',
-    'passionflower': '패션플라워',
-    'glycine': '글리신',
-    'gaba': '가바',
-    'tryptophan': '트립토판',
-    'tart cherry': '타트체리',
-    'lemon balm': '레몬밤',
-    'ashwagandha': '아슈와간다',
-    '5-htp': '5-htp',
-    'lactium': '락티움',
-    'phytomelatonin': '식물성 멜라토닌'
+    'l-theanine': '테아닌', 'theanine': '테아닌', '테아닌': '테아닌',
+    'valerian root': '발레리안 뿌리', 'valerian': '발레리안 뿌리', '발레리안': '발레리안 뿌리',
+    'gaba': 'GABA', 'gamma aminobutyric acid': 'GABA', '가바': 'GABA',
+    'ashwagandha': '아슈와간다', '아쉬아간다': '아슈와간다', '아슈와간다': '아슈와간다',
+    '5-htp': '5-HTP', '5-히드록시트립토판': '5-HTP',
+    'l-tryptophan': 'L-트립토판', 'tryptophan': 'L-트립토판', '트립토판': 'L-트립토판',
+    'lemon balm': '레몬밤', '레몬밤': '레몬밤',
+    'passionflower': '패션플라워', '시계꽃': '패션플라워', 'passion_flower': '패션플라워',
+    'glycine': '글리신', '글리신': '글리신',
+    'chamomile': '캐모마일', '캐모마일': '캐모마일',
+    'taurine': '타우린', '타우린': '타우린',
+    'inositol': '이노시톨', '이노시톨': '이노시톨',
+    'tart cherry': '타트체리', '타트체리': '타트체리', 'tart_cherry': '타트체리',
+    'lactium': '락티움', '락티움': '락티움',
+    'melatonin': '멜라토닌', '멜라토닌': '멜라토닌',
+    'magnesium': '마그네슘', '마그네슘': '마그네슘',
+    'ecklonia cava': '감태추출물', 'ecklonia_cava': '감태추출물',
+    '감태': '감태추출물', '감태추출물': '감태추출물',
+    '미강': '미강주정추출물', '미강주정추출물': '미강주정추출물',
+    '흑하랑': '흑하랑 상추', '락투신': '흑하랑 상추',
+    'phytomelatonin': '식물성 멜라토닌', '식물성 멜라토닌': '식물성 멜라토닌'
 }
+
+import re
+
+def extract_ingredients(text):
+    if pd.isna(text):
+        return []
+    found = []
+    text_lower = str(text).lower()
+    for eng, kor in INGREDIENT_MAP.items():
+        if re.search(f'\\b{re.escape(eng)}\\b', text_lower) or eng in text_lower:
+            found.append(kor)
+    return list(set(found))
 
 def analyze_cross_ingredients():
     print("--- iHerb & Naver 성분 교집합 분석 시작 ---")
     
-    # 1. iHerb 데이터 로드 (이미 가공된 active_ingredients 활용)
+    # 1. iHerb 데이터 로드
     df_iherb = pd.read_csv(IHERB_CSV)
     
-    # 성분 리스트 추출 및 카운트
-    # iherb_sleep_products_detailed.csv에는 'active_ingredients' 컬럼이 문자열 리스트 형태로 저장되어 있음
-    all_iherb_ings = []
-    for ings in df_iherb['active_ingredients'].dropna():
-        # '["Magnesium", "Theanine"]' 형태를 리스트로 변환
-        try:
-            cleaned_ings = ings.strip('[]').replace('"', '').split(', ')
-            all_iherb_ings.extend([ing.lower().strip() for ing in cleaned_ings])
-        except:
-            continue
-            
-    iherb_freq = pd.Series(all_iherb_ings).value_counts().reset_index()
-    iherb_freq.columns = ['ingredient_eng', 'iherb_count']
+    # 성분 리스트 추출
+    df_iherb['combined_text'] = (df_iherb['product_name'].fillna('') + ' ' + df_iherb['active_ingredients'].fillna('')).str.lower()
+    df_iherb['ingredients_kor'] = df_iherb['combined_text'].apply(extract_ingredients)
     
-    # 한글명 매핑
-    iherb_freq['ingredient_kor'] = iherb_freq['ingredient_eng'].map(INGREDIENT_MAP)
+    iherb_ingredients = df_iherb.explode('ingredients_kor')['ingredients_kor'].value_counts().reset_index()
+    iherb_ingredients.columns = ['ingredient_kor', 'iherb_count']
     
-    # 2. 네이버 데이터 로드 (shop_*.csv 파일들 통합)
+    # 2. 네이버 데이터 로드
     import glob
     naver_files = glob.glob(os.path.join(DATA_DIR, "shop_*.csv"))
     df_naver_list = []
@@ -61,16 +69,14 @@ def analyze_cross_ingredients():
     
     df_naver = pd.concat(df_naver_list, ignore_index=True)
     
-    # 상품명에서 성분 키워드 추출
-    naver_ing_counts = {}
-    for kor_name in INGREDIENT_MAP.values():
-        count = df_naver['title'].str.contains(kor_name, case=False, na=False).sum()
-        naver_ing_counts[kor_name] = count
-        
-    naver_freq = pd.DataFrame(list(naver_ing_counts.items()), columns=['ingredient_kor', 'naver_count'])
+    # 상품명에서 성분 추출
+    df_naver['ingredients_kor'] = df_naver['title'].apply(extract_ingredients)
+    naver_ingredients = df_naver.explode('ingredients_kor')['ingredients_kor'].value_counts().reset_index()
+    naver_ingredients.columns = ['ingredient_kor', 'naver_count']
+
     
     # 3. 통합 매핑 (Outer Join)
-    merged = pd.merge(iherb_freq, naver_freq, on='ingredient_kor', how='outer').fillna(0)
+    merged = pd.merge(iherb_ingredients, naver_ingredients, on='ingredient_kor', how='outer').fillna(0)
     
     # 4. 분석 인사이트 도출
     # - 글로벌 베스트 (iHerb count 높음) 이면서 국내 인지도 있음 (Naver count > 0)
