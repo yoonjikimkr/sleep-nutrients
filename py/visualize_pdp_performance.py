@@ -9,7 +9,8 @@ plt.rcParams['font.family'] = 'AppleGothic'
 plt.rcParams['axes.unicode_minus'] = False
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "data")
+# py 폴더의 상위 폴더(프로젝트 루트) 하위의 data 폴더로 지정합니다.
+DATA_DIR = os.path.join(os.path.dirname(BASE_DIR), "data")
 DB_PATH = os.path.join(DATA_DIR, "iherb_sleep.db")
 DETAIL_CSV = os.path.join(DATA_DIR, "iherb_sleep_products_detailed.csv")
 
