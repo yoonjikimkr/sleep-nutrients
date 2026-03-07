@@ -26,7 +26,7 @@ style: |
 ---
 
 # 2. 멜라토닌 시장 점유율
-![w:600](images/01_melatonin_ratio.png)
+![w:600](../image/01_melatonin_ratio.png)
 
 - **점유율**: 약 56.4% (전체 상품 중 과반수 이상)
 - **특이사항**: 국내 규제 성분임에도 불구하고 검색 결과의 절반 이상을 차지함 (해외 직구 활성화)
@@ -34,7 +34,7 @@ style: |
 ---
 
 # 3. 주요 성분 트렌드 (TOP 10)
-![w:700](images/02_ingredient_frequency.png)
+![w:700](../image/02_ingredient_frequency.png)
 
 - **1위**: 멜라토닌 (키워드 중심)
 - **주요 대체 성분**: 테아닌, 마그네슘, 감태, GABA 등
@@ -43,7 +43,7 @@ style: |
 ---
 
 # 4. 가격대 분석
-![w:700](images/03_price_distribution.png)
+![w:700](../image/03_price_distribution.png)
 
 - **평균 가격**: 약 48,000원
 - **멜라토닌**: 가격 편차가 크며 직구 물류비 등이 반영된 고가 제품군 존재
@@ -52,7 +52,7 @@ style: |
 ---
 
 # 5. 제품당 성분 조합 수
-![w:700](images/04_ingredient_count_dist.png)
+![w:700](../image/04_ingredient_count_dist.png)
 
 - **분포**: 1~2개 집중형이 주류
 - **복합화**: 최대 5개 이상의 성분을 조합한 제품군도 관찰됨 (올인원 전략)
@@ -60,7 +60,7 @@ style: |
 ---
 
 # 6. 멜라토닌 제품 내 성분 상관관계
-![w:600](images/05_melatonin_combo_heatmap.png)
+![w:600](../image/05_melatonin_combo_heatmap.png)
 
 - **주요 조합**: 멜라토닌 + 테아닌, 멜라토닌 + 비타민 B6
 - **의미**: 시너지 효과를 노린 복합 포뮬러가 활발하게 개발됨
@@ -68,7 +68,7 @@ style: |
 ---
 
 # 7. 비멜라토닌 성분 점유율
-![w:600](images/10_non_melatonin_ingredients.png)
+![w:600](../image/10_non_melatonin_ingredients.png)
 
 - **상위 성분**: 테아닌, 마그네슘, 감태, 락티움
 - **자연 유래 성분**: 화학 성분에 대한 거부감을 줄인 마케팅 포인트로 활용
@@ -76,7 +76,7 @@ style: |
 ---
 
 # 8. 유통 채널 및 판매처
-![w:700](images/09_melatonin_malls.png)
+![w:700](../image/09_melatonin_malls.png)
 
 - **해외 직구**: 멜라토닌 제품의 주요 유통 통로
 - **판매처**: 특정 대형 몰보다는 파편화된 직구 대행몰 위주

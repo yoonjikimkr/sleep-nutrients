@@ -12,32 +12,32 @@
 ## 2. 주요 분석 결과 (EDA)
 
 ### 2.1 멜라토닌 시장 점유율
-![멜라토닌 비중](images/01_melatonin_ratio.png)
+![멜라토닌 비중](../image/01_melatonin_ratio.png)
 - **해석**: 멜라토닌 제품은 전체 수집 데이터의 상당 부분(약 56.4%)을 차지하고 있습니다. 이는 소비자들의 수면 보조제 탐색 시 '멜라토닌' 키워드에 대한 높은 의존도를 반영합니다. 다만, 국내 정식 유통이 제한된 성분임을 고려할 때 대다수가 해외 직구 형태인 것으로 보입니다.
 
 ### 2.2 성분 트렌드 분석
-![성분 빈도](images/02_ingredient_frequency.png)
+![성분 빈도](../image/02_ingredient_frequency.png)
 - **해석**: 멜라토닌 외에도 **테아닌**, **마그네슘**, **감태**, **GABA** 순으로 높은 빈도를 보입니다. 특히 테아닌과 마그네슘은 국내 정식 건강기능식품 시장의 주류 성분으로 자리 잡고 있습니다.
 
 ### 2.3 가격대 분석
-![가격 분포](images/03_price_distribution.png)
+![가격 분포](../image/03_price_distribution.png)
 - **해석**: 멜라토닌 제품의 가격 편차가 비멜라토닌 제품보다 크게 나타납니다. 이는 직구 배송비 및 고함량 제품군에 따른 프리미엄 가격 책정이 원인으로 분석됩니다. 평균 가격은 약 48,000원 수준입니다.
 
 ### 2.4 복합 성분 구조
-![성분 수 분포](images/04_ingredient_count_dist.png)
+![성분 수 분포](../image/04_ingredient_count_dist.png)
 - **해석**: 대부분의 제품이 1~2개의 핵심 성분을 강조하지만, 3개 이상의 성분을 조합한 '올인원' 형태의 복합 영양제도 확산되고 있는 추세입니다 (최대 5개 성분 조합 확인).
 
 ### 2.5 멜라토닌 제품군 vs 비멜라토닌 제품군 성분 비교
 ````carousel
-![멜라토닌 조합](images/05_melatonin_combo_heatmap.png)
+![멜라토닌 조합](../image/05_melatonin_combo_heatmap.png)
 <!-- slide -->
-![비멜라토닌 성분](images/10_non_melatonin_ingredients.png)
+![비멜라토닌 성분](../image/10_non_melatonin_ingredients.png)
 ````
 - **해석**: 멜라토닌 제품은 주로 테아닌이나 B6와 조합되는 경우가 많으며, 비멜라토닌 시장에서는 감태나 락티움 등 '자연 유래' 혹은 '안전성'을 강조한 성분들이 상위권을 차지하고 있습니다.
 
 ## 3. 유통 및 카테고리 분석
-![카테고리 분포](images/06_category_dist.png)
-![주요 판매처](images/09_melatonin_malls.png)
+![카테고리 분포](../image/06_category_dist.png)
+![주요 판매처](../image/09_melatonin_malls.png)
 - **해석**: 멜라토닌 제품군은 주로 해외 직구 전문몰을 통해 유통되고 있으며, 일반적인 영양제 카테고리 외에도 기타 가공식품으로 분류되어 규제를 우회하려는 경향이 일부 관찰됩니다.
 
 ## 4. 전략적 제안 (Insights)

@@ -13,31 +13,31 @@
 ## 2. 주요 분석 결과 (EDA)
 
 ### 2.1 전체 검색 트렌드 및 카테고리 비중
-![전체 트렌드](images/search_01_total_trend.png)
-![카테고리 비중](images/search_02_category_share.png)
+![전체 트렌드](../image/search_01_total_trend.png)
+![카테고리 비중](../image/search_02_category_share.png)
 - **해석**: 검색 시장의 중심은 **'성분' 관련 키워드**입니다. '멜라토닌'을 필두로 한 성분 검색량이 증상이나 고민형 키워드보다 압도적으로 높게 나타나, 소비자들이 문제의 원인 파악보다는 이미 알고 있는 특정 해결책(성분)을 직접 검색하는 경향이 매우 강함을 보여줍니다.
 
 ### 2.2 성별 검색 관심도 차이
-![성별 비교](images/search_03_gender_comparison.png)
-![영양제 성별 격차](images/search_09_gender_solution_gap.png)
+![성별 비교](../image/search_03_gender_comparison.png)
+![영양제 성별 격차](../image/search_09_gender_solution_gap.png)
 - **해석**: 
     - **성별 유사성**: 전반적인 검색 패턴과 핵심 키워드 선호도는 남성과 여성 간에 **유의미한 차이가 크지 않은** 것으로 나타납니다. 수면 문제는 성별에 관계없이 공통적으로 겪는 건강 고민임을 시사합니다.
     - **미세한 경향성**: 그럼에도 불구하고, '불면증'과 '영양제' 관련 검색어에서는 여성이, '코골이/무호흡'과 같은 구조적 고민에서는 남성이 소폭 높은 비중을 보이는 등 성별에 따른 미세한 관심사 차이가 존재합니다.
 
 ### 2.3 성분별 검색 트렌드: 멜라토닌의 압도적 우위
-![성분 트렌드](images/search_05_ingredient_trend.png)
+![성분 트렌드](../image/search_05_ingredient_trend.png)
 - **해석**: 수면 관련 성분 중 **'멜라토닌'**의 검색 지수가 테아닌이나 마그네슘에 비해 압도적(거의 100 지수 수준)으로 높습니다. 이는 소비자들이 수면 보조제의 대명사로 멜라토닌을 인식하고 있음을 의미합니다.
 
 ### 2.4 연령대별 세그먼트 분석
-![연령 히트맵](images/search_04_age_heatmap.png)
-![세대별 성분 관심](images/search_08_age_generation_comp.png)
+![연령 히트맵](../image/search_04_age_heatmap.png)
+![세대별 성분 관심](../image/search_08_age_generation_comp.png)
 - **해석**: 
     - **40-50대 이상**: 멜라토닌과 '깊은잠'에 대한 검색 집중도가 매우 높습니다. 만성적인 수면 질 저하를 해결하려는 욕구가 가장 강한 연령대입니다.
     - **20대**: 증상에 대한 검색은 높으나 실제 성분이나 영양제 검색으로 이어지는 비중은 상대적으로 낮습니다.
 
 ### 2.5 계절성 및 상관관계 분석
-![계절성](images/search_07_seasonality.png)
-![증상-성분 상관관계](images/search_10_correlation.png)
+![계절성](../image/search_07_seasonality.png)
+![증상-성분 상관관계](../image/search_10_correlation.png)
 - **해석**: 증상에 대한 검색량과 성분에 대한 검색량은 강한 양의 상관관계를 보입니다. 
 
 ## 3. 전략적 인사이트 (Insights)

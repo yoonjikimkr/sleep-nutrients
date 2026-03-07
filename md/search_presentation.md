@@ -29,12 +29,12 @@ style: |
 ---
 
 # 2.1 전체 검색 트렌드
-![w:800](images/search_01_total_trend.png)
+![w:800](../image/search_01_total_trend.png)
 
 ---
 
 # 2.1 카테고리 비중 분석
-![w:700](images/search_02_category_share.png)
+![w:700](../image/search_02_category_share.png)
 
 ---
 
@@ -46,12 +46,12 @@ style: |
 ---
 
 # 2.2 성별 검색 관심도 (1)
-![w:700](images/search_03_gender_comparison.png)
+![w:700](../image/search_03_gender_comparison.png)
 
 ---
 
 # 2.2 성별 검색 관심도 (2)
-![w:700](images/search_09_gender_solution_gap.png)
+![w:700](../image/search_09_gender_solution_gap.png)
 
 ---
 
@@ -62,7 +62,7 @@ style: |
 ---
 
 # 2.3 성분별 검색 트렌드
-![w:700](images/search_05_ingredient_trend.png)
+![w:700](../image/search_05_ingredient_trend.png)
 
 - **멜라토닌의 압도적 우위**: 수면 관련 성분 중 **'멜라토닌'**의 검색 지수가 테아닌이나 마그네슘에 비해 압도적(거의 100 지수 수준)으로 높습니다.
 - **해석**: 이는 소비자들이 수면 보조제의 대명사로 멜라토닌을 인식하고 있음을 의미합니다.
@@ -70,12 +70,12 @@ style: |
 ---
 
 # 2.4 연령대별 세그먼트 분석 (1)
-![w:700](images/search_04_age_heatmap.png)
+![w:700](../image/search_04_age_heatmap.png)
 
 ---
 
 # 2.4 연령대별 세그먼트 분석 (2)
-![w:700](images/search_08_age_generation_comp.png)
+![w:700](../image/search_08_age_generation_comp.png)
 
 ---
 
@@ -86,7 +86,7 @@ style: |
 ---
 
 # 2.5 계절성 및 상관관계 분석
-![w:500](images/search_07_seasonality.png) ![w:500](images/search_10_correlation.png)
+![w:500](../image/search_07_seasonality.png) ![w:500](../image/search_10_correlation.png)
 
 - **해석**: 증상에 대한 검색량과 성분에 대한 검색량은 강한 양의 상관관계를 보입니다. 
 - 고민이 깊어질수록 구체적인 성분명을 검색하는 단계로 진입함을 보여줍니다.
