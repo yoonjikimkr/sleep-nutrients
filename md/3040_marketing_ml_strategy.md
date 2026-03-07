@@ -9,7 +9,9 @@
   - **테아닌 (L-Theanine)**: 스트레스 긴장 완화 및 알파파 유도
   - **킬레이트 마그네슘 (Magnesium Glycinate)**: 높은 흡수율, 설사 부작용 최소화, 근육/신경 이완
   - **아슈와간다 (Ashwagandha)**: 코르티솔(스트레스 호르몬) 수치 직접 조절
-  - *Data Proof*: 글로벌 100위권 수면 제품 분석 결과, 테아닌과 아슈와간다가 쓰이는 제품의 80~100%가 마그네슘을 베이스로 채택하는 매우 강력한 상관관계를 가짐 (`chart_ingredient_cooccurrence_heatmap.png` 참조)
+  - *Data Proof (Co-occurrence 매트릭스 백분율 기반)*: 
+    - **[글로벌 iHerb]**: 아슈와간다 및 테아닌을 내세운 수면 제품의 85%~100%가 필수 베이스로 마그네슘을 사용함 (`chart_cooccurrence_heatmap_iherb.png` 참조). 스트레스 케어와 근육 이완의 결합이 글로벌 스탠다드.
+    - **[국내 Naver]**: 3040 직장인을 타겟으로 한 제품군 중 테아닌+마그네슘 조합이 강세를 보이며, 수면(Sleep) 카테고리뿐만 아니라 스트레스(Stress) 케어로 마케팅 범위를 확장하는 트렌드 노출 (`chart_cooccurrence_heatmap_naver.png` 참조).
 
 ---
 
