@@ -15,11 +15,7 @@ def linkify_output(text):
     def replacer(match):
         filepath = match.group(0)
         filename = os.path.basename(filepath)
-        ext = match.group(1)
-        if ext == 'png':
-            return f"![{filename}]({filepath})"
-        else:
-            return f"[{filename}]({filepath})"
+        return f"[{filename}]({filepath})"
     
     # data/ 폴더 내 파일 경로 링크화
     linked_text = re.sub(r'data/[a-zA-Z0-9_\-]+\.(png|csv)', replacer, text)
