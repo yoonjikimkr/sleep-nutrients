@@ -15,7 +15,11 @@ def linkify_output(text):
     def replacer(match):
         filepath = match.group(0)
         filename = os.path.basename(filepath)
-        return f"[{filename}]({filepath})"
+        ext = match.group(1)
+        if ext == 'png':
+            return f"![{filename}]({filepath})"
+        else:
+            return f"[{filename}]({filepath})"
     
     # data/ 폴더 내 파일 경로 링크화
     linked_text = re.sub(r'data/[a-zA-Z0-9_\-]+\.(png|csv)', replacer, text)
@@ -68,9 +72,9 @@ readme_header_template = """# 🌙 Sleep Nutrients Project
 {out3}
 ```
 **[차트 결과물]**
-- [통합 상관관계 확률 매트릭스 히트맵](data/chart_cooccurrence_heatmap_combined.png)
-- [iHerb 상관관계 확률 매트릭스 히트맵](data/chart_cooccurrence_heatmap_iherb.png)
-- [Naver 상관관계 확률 매트릭스 히트맵](data/chart_cooccurrence_heatmap_naver.png)
+- ![통합 상관관계 확률 매트릭스 히트맵](data/chart_cooccurrence_heatmap_combined.png)
+- ![iHerb 상관관계 확률 매트릭스 히트맵](data/chart_cooccurrence_heatmap_iherb.png)
+- ![Naver 상관관계 확률 매트릭스 히트맵](data/chart_cooccurrence_heatmap_naver.png)
 
 ---
 
