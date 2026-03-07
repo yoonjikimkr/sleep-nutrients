@@ -34,7 +34,7 @@ readme_header_template = """# 🌙 Sleep Nutrients Project
 4. [🎯 3040 직장인 타겟 고도화 EDA 결과](#4-3040-직장인-타겟-고도화-eda-결과-pyanalyze_3040_strategy_v2py-실행-결과)
 5. [🧪 iHerb & Naver 성분 교집합 분석](#5--iherb--naver-성분-교집합-분석-pyanalyze_ingredient_crosspy-실행-결과)
 6. [🛡️ 공공데이터 안전성(부작용) 검증 Plan](#6-️-공공데이터-안전성부작용-검증-plan-pyvalidate_safetypy-실행-결과)
-7. [🤖 마케팅 머신러닝(ML) 종합 전략 전문](#7--마케팅-머신러닝ml-종합-전략-전문)
+7. [🤖 마케팅 머신러닝(ML) 도입 방향 요약](#7--마케팅-머신러닝ml-도입-방향-요약)
 8. [📂 리포트 및 소스코드](#8--리포트-및-소스코드-collaboration)
 9. [📊 네이버 쇼핑 3040 시장 분석 및 EDA 리포트](#네이버-쇼핑을-활용한-3040세대-수면-영양제-시장-분석-및-eda-리포트)
 
@@ -91,7 +91,7 @@ readme_header_template = """# 🌙 Sleep Nutrients Project
 
 ---
 
-## 7. 🤖 마케팅 머신러닝(ML) 종합 전략 전문
+## 7. 🤖 마케팅 머신러닝(ML) 도입 방향 요약
 
 {marketing_strategy}
 
@@ -118,11 +118,18 @@ if __name__ == "__main__":
     out_cross = linkify_output(run_script("py/analyze_ingredient_cross.py"))
     out4 = linkify_output(run_script("py/validate_safety.py"))
     
-    # 마케팅 전략 전문 로드
+    # 마케팅 전략 중 섹션 3(ML 도입 방향)만 추출 로드
     marketing_strategy = ""
     try:
         with open("md/3040_marketing_ml_strategy.md", "r", encoding="utf-8") as f:
-            marketing_strategy = f.read()
+            content = f.read()
+            # 섹션 3. 찾기
+            import re
+            match = re.search(r"(## 3\..*?)(?=\n##|---|$)", content, re.DOTALL)
+            if match:
+                marketing_strategy = match.group(1).strip()
+            else:
+                marketing_strategy = "마케팅 ML 전략 섹션을 찾을 수 없습니다."
     except:
         marketing_strategy = "마케팅 전략 파일을 찾을 수 없습니다."
     
