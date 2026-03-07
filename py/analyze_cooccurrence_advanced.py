@@ -26,31 +26,33 @@ TARGET_INGREDIENTS = [
     'melatonin', '5-htp', 'tryptophan', 'vitamin b6'
 ]
 
-def map_ingredient_name(raw_name):
-    """원시 성분명(텍스트)에서 핵심 타겟 성분 키워드 추출 (단순화된 정규화)"""
-    if not isinstance(raw_name, str): return None
-    raw_name = raw_name.lower().strip()
-    
-    for target in TARGET_TARGET_INGREDIENTS: # Typo -> TARGET_INGREDIENTS
-        pass # Will fix in next iteration if needed, fixing here directly
-    
-    for target in TARGET_INGREDIENTS:
-        if target in raw_name:
-            if target == 'magnesium glycinate': return 'magnesium' # 대표성분 분류
-            if target == '5-htp': return '5-htp'
-            if target == 'vitamin b6': return 'vitamin b6'
-            return target
-    return None
+INGREDIENT_MAP_ADV = {
+    'magnesium': ['magnesium', '마그네슘'],
+    'theanine': ['theanine', '테아닌', 'l-theanine'],
+    'valerian': ['valerian', '발레리안'],
+    'gaba': ['gaba', '가바', 'gamma aminobutyric acid'],
+    'ashwagandha': ['ashwagandha', '아슈와간다', '아쉬아간다'],
+    'lemon balm': ['lemon balm', '레몬밤'],
+    'chamomile': ['chamomile', '카모마일', '캐모마일'],
+    'glycine': ['glycine', '글리신'],
+    'melatonin': ['melatonin', '멜라토닌'],
+    '5-htp': ['5-htp', '5-히드록시트립토판'],
+    'tryptophan': ['tryptophan', '트립토판', 'l-tryptophan'],
+    'vitamin b6': ['vitamin b6', '비타민 b6', '비타민b6']
+}
 
 def extract_ingredients(text_series):
-    """텍스트 군에서 성분 리스트 추출"""
+    """텍스트 군에서 성분 리스트 추출 (한/영 통합 매핑)"""
     mapped_list = []
     for text in text_series.dropna():
-        # 간단하게 텍스트 내에서 주요 키워드가 발견되면 해당 제품의 성분으로 간주
+        text_lower = str(text).lower()
         product_ings = set()
-        for target in TARGET_INGREDIENTS:
-            if target in str(text).lower():
-                product_ings.add(target)
+        for target_ing, aliases in INGREDIENT_MAP_ADV.items():
+            for alias in aliases:
+                # 단순 포함 여부 검사
+                if alias in text_lower:
+                    product_ings.add(target_ing)
+                    break
         if product_ings:
             mapped_list.append(list(product_ings))
     return mapped_list
@@ -143,6 +145,9 @@ def run_cooccurrence_matrix_analysis():
         
     print(f"\n✅ iHerb 분석 유효제품: {len(iherb_lists)}건 / Naver 분석 유효제품: {len(naver_lists)}건 (중복포함)\n")
 
+    combined_lists = iherb_lists + naver_lists
+    compute_cooccurrence(combined_lists, "통합 글로벌&국내(iHerb+Naver)", "combined")
+    print("-" * 60)
     compute_cooccurrence(iherb_lists, "iHerb 글로벌", "iherb")
     print("-" * 60)
     compute_cooccurrence(naver_lists, "Naver 국내쇼핑", "naver")
