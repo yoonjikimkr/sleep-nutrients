@@ -21,7 +21,7 @@
 
 ## 시장 점유 비중 비교 (상위 15개 성분)
 
-![플랫폼별 성분 점유율 비교](../images/sleep_market_share_comparison.png)
+![플랫폼별 성분 점유율 비교](../image/sleep_market_share_comparison.png)
 
 | 성분명 | 네이버 점유율 (%) | iHerb 점유율 (%) | 비고 |
 |:---|---:|---:|:---|
