@@ -106,8 +106,13 @@ def analyze_3040_strategy():
     kw_avg, kw_min, kw_max = get_price_info(df_naver_kw)
     ing_avg, ing_min, ing_max = get_price_info(df_naver_ing)
 
-    print(f"    [키워드 기반] 평균 {kw_avg:,.0f}원 (최저 {kw_min:,.0f} ~ 최고 {kw_max:,.0f})")
-    print(f"    [핵심성분 기반] 평균 {ing_avg:,.0f}원 (최저 {ing_min:,.0f} ~ 최고 {ing_max:,.0f})")
+    price_summary = pd.DataFrame({
+        '구분': ['키워드 광고 상품', '핵심성분 포함 상품'],
+        '평균가': [f"{kw_avg:,.0f}원", f"{ing_avg:,.0f}원"],
+        '최저가': [f"{kw_min:,.0f}원", f"{ing_min:,.0f}원"],
+        '최고가': [f"{kw_max:,.0f}원", f"{ing_max:,.0f}원"]
+    })
+    print(price_summary.to_markdown(index=False))
     
     print(f"\n📌 분석 결과: 국내 시장은 키워드 기반 제품의 평균가가 약 {kw_avg - ing_avg:,.0f}원 더 높게 형성되어 있음.")
     print(f"   이는 3040 직장인 타겟의 '페인포인트(스트레스)' 해결에 더 높은 프리미엄이 붙어 있음을 시사함.")

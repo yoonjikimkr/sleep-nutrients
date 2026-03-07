@@ -63,7 +63,7 @@ def detailed_3040_needs_analysis():
     res_df = pd.DataFrame(results).sort_values('전략적_가치', ascending=False)
     
     print("\n💡 3040 직장인 맞춤형 성분 전략:")
-    print(res_df[['성분(ENG)', '성분(KOR)', '전략적_가치', '근거']].to_string(index=False))
+    print(res_df[['성분(ENG)', '성분(KOR)', '전략적_가치', '근거']].to_markdown(index=False))
     
     top_3 = [f"{row['성분(KOR)']}({row['성분(ENG)']})" for _, row in res_df.head(3).iterrows()]
     print(f"\n🚀 [최종 제안] 3040 직장인을 위한 '스위치 오프' 복합제 기획:")

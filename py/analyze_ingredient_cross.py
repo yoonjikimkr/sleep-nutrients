@@ -89,7 +89,7 @@ def analyze_cross_ingredients():
     
     print(f"✅ 분석 완료! 결과 저장됨: {output_path}")
     print("\n--- 주요 성분 기회 요소 (Top 5) ---")
-    print(merged_sorted[merged_sorted['ingredient_kor'] != '멜라토닌'].head(6)) # 멜라토닌 제외
+    print(merged_sorted[merged_sorted['ingredient_kor'] != '멜라토닌'].head(6).to_markdown(index=False))
 
 if __name__ == "__main__":
     analyze_cross_ingredients()
