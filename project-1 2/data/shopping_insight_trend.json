@@ -1,0 +1,21 @@
+{
+    "startDate": "2025-02-28",
+    "endDate": "2026-02-28",
+    "timeUnit": "date",
+    "results": [
+        {
+            "title": "수면 영양제",
+            "keyword": [
+                "수면영양제"
+            ],
+            "data": []
+        },
+        {
+            "title": "멜라토닌",
+            "keyword": [
+                "멜라토닌"
+            ],
+            "data": []
+        }
+    ]
+}
