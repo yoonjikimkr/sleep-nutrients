@@ -67,7 +67,7 @@ table { font-size: 0.7em; }
 
 ---
 ## Key EDA Findings: 멜라토닌 추출원 분포 (1)
-![width:700px](images/v1_source.png)
+![width:700px](image/v1_source.png)
 
 ---
 ## Key EDA Findings: 멜라토닌 추출원 분포 (2)
@@ -94,7 +94,7 @@ table { font-size: 0.6em; }
 
 ---
 ## Key EDA Findings: 제형 분포 (1)
-![width:700px](images/v2_format.png)
+![width:700px](image/v2_format.png)
 
 ---
 ## Key EDA Findings: 제형 분포 (2)
@@ -127,7 +127,7 @@ table { font-size: 0.55em; }
 
 ---
 ## Key EDA Findings: 1회 섭취당 가격 분포 (1)
-![width:700px](images/v3_price.png)
+![width:700px](image/v3_price.png)
 
 ---
 ## Key EDA Findings: 1회 섭취당 가격 분포 (2)
@@ -165,7 +165,7 @@ table { font-size: 0.55em; }
 
 ---
 ## Key EDA Findings: 주요 영양 성분 등장(TF-IDF) (1)
-![width:700px](images/v4_tfidf.png)
+![width:700px](image/v4_tfidf.png)
 
 ---
 ## Key EDA Findings: 주요 영양 성분 등장(TF-IDF) (2)
@@ -200,7 +200,7 @@ table { font-size: 0.55em; }
 
 ---
 ## Key EDA Findings: 플랫폼별 가격 포지셔닝 차이 (1)
-![width:700px](images/v5_platform.png)
+![width:700px](image/v5_platform.png)
 
 ---
 ## Key EDA Findings: 플랫폼별 가격 포지셔닝 차이 (2)
@@ -233,7 +233,7 @@ table { font-size: 0.55em; }
 
 ---
 ## Correlation Insights: 멜라토닌 함량 vs 가격 (1)
-![width:700px](images/v6_scatter1.png)
+![width:700px](image/v6_scatter1.png)
 
 ---
 ## Correlation Insights: 멜라토닌 함량 vs 가격 (2)
@@ -265,7 +265,7 @@ table { font-size: 0.55em; }
 
 ---
 ## Correlation Insights: 추가 성분 개수 vs 가격 (1)
-![width:700px](images/v7_scatter2.png)
+![width:700px](image/v7_scatter2.png)
 
 ---
 ## Correlation Insights: 추가 성분 개수 vs 가격 (2)
@@ -297,7 +297,7 @@ table { font-size: 0.55em; }
 
 ---
 ## Correlation Insights: 제형과 멜라토닌 함량 관계 (1)
-![width:700px](images/v8_format_mg.png)
+![width:700px](image/v8_format_mg.png)
 
 ---
 ## Correlation Insights: 제형과 멜라토닌 함량 관계 (2)
@@ -330,7 +330,7 @@ table { font-size: 0.55em; }
 
 ---
 ## Market Archetypes: K-Means 클러스터 시장 분석 (1)
-![width:700px](images/v9_clusters.png)
+![width:700px](image/v9_clusters.png)
 
 ---
 ## Market Archetypes: K-Means 클러스터 시장 분석 (2)
@@ -363,7 +363,7 @@ table { font-size: 0.55em; }
 
 ---
 ## Market Archetypes: 마켓별 포지셔닝 차이 (1)
-![width:700px](images/v10_crosstab.png)
+![width:700px](image/v10_crosstab.png)
 
 ---
 ## Market Archetypes: 마켓별 포지셔닝 차이 (2)
