@@ -129,7 +129,7 @@ if menu == "1. 시장 개요 및 트렌드":
     
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.markdown("<div class='card text-center'><div class='metric-label'>글로벌 시장규모 (2031 전망)</div><div class='metric-value'>$3.22B</div></div>", unsafe_allow_html=True)
+        st.markdown("<div class='card text-center'><div class='metric-label'>글로벌 시장규모 (2025 전망)</div><div class='metric-value'>$1.89B</div><div style='font-size: 0.8rem; color: #64748b;'>(2031년 3.22B 성장 전망)</div></div>", unsafe_allow_html=True)
     with col2:
         st.markdown("<div class='card text-center'><div class='metric-label'>연평균 성장률(CAGR)</div><div class='metric-value'>9.28%</div></div>", unsafe_allow_html=True)
     with col3:
