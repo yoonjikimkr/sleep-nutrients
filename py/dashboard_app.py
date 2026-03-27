@@ -121,7 +121,7 @@ menu = st.sidebar.radio(
 )
 
 st.sidebar.markdown("---")
-st.sidebar.info("본 대시보드는 Business Analyst 관점에서 식물성 멜라토닌 시장의 데이터 정합성을 확보하고 전략적 인사이트를 도출합니다.")
+st.sidebar.info("본 대시보드는 수면 장애를 겪는 4050 타겟을 위해, 데이터 기반의 '프리미엄 식물성 멜라토닌' 신규 PB 상품 기획 및 시장 안착 전략을 제시합니다.")
 
 # --- Main Logic ---
 if menu == "1. 시장 개요 및 트렌드":
