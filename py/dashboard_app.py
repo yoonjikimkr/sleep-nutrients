@@ -179,9 +179,15 @@ elif menu == "2. 데이터 기반 시장 분석":
         st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='card'><h3>💰 가격 및 리뷰 상관관계 분석</h3>", unsafe_allow_html=True)
-    fig_corr = px.scatter(df_products, x='review_count', y='price', size='review_score',
+    # Ensure no NaNs in columns used for plotting
+    df_plot = df_products.copy()
+    df_plot['review_score'] = df_plot['review_score'].fillna(0)
+    df_plot['review_count'] = df_plot['review_count'].fillna(0)
+    df_plot['discounted_price'] = df_plot['discounted_price'].fillna(0)
+    
+    fig_corr = px.scatter(df_plot, x='review_count', y='discounted_price', size='review_score',
                          title='80개 상위 제품 가격-성능 지표 (Scatter)',
-                         labels={'review_count': '시장 검증(리뷰)', 'price': '가격(원)'},
+                         labels={'review_count': '시장 검증(리뷰)', 'discounted_price': '가격(원)'},
                          template='plotly_white', color='review_score', color_continuous_scale='Bluered')
     st.plotly_chart(fig_corr, use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
