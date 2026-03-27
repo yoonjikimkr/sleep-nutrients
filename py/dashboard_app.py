@@ -161,21 +161,41 @@ elif menu == "2. 데이터 기반 시장 분석":
     
     with col_a:
         st.markdown("<div class='card'><h3>💊 제형별 점유율 (Formulation)</h3>", unsafe_allow_html=True)
-        fig_pie = px.pie(names=['정제/캡슐', '구미/젤리', '파우더/분말'], values=[81, 13, 5], 
-                         title='네이버/SSG 80개 상위 제품군 분석', hole=0.4, template='plotly_white',
+        # 동적 계산 (Dynamic calculation from db)
+        def get_formulation(row):
+            txt = str(row.get('product_name', '')) + " " + str(row.get('package_type', ''))
+            if '구미' in txt or '젤리' in txt: return '구미/젤리'
+            elif '분말' in txt or '가루' in txt or '파우더' in txt: return '파우더/분말'
+            elif '액상' in txt or '포' in txt or '앰플' in txt: return '액상류'
+            else: return '정제/캡슐'
+        df_form = df_products.copy()
+        df_form['formulation'] = df_form.apply(get_formulation, axis=1)
+        form_counts = df_form['formulation'].value_counts()
+        
+        fig_pie = px.pie(names=form_counts.index, values=form_counts.values, 
+                         title='네이버/SSG 80개 상위 제품군 분석 (실시간 DB)', hole=0.4, template='plotly_white',
                          color_discrete_sequence=px.colors.qualitative.Prism)
         st.plotly_chart(fig_pie, use_container_width=True)
-        st.markdown("<div class='insight-box'><b>Gap Analysis:</b> 현재 시장의 81%가 약 형태인 정제입니다. 하지만 소비자 리뷰 분석 결과 '구미' 제형에 대한 선호도가 월등히 높게 나타납니다.</div>", unsafe_allow_html=True)
+        jungje_pct = (form_counts.get('정제/캡슐', 0) / len(df_form)) * 100
+        st.markdown(f"<div class='insight-box'><b>Gap Analysis:</b> 현재 시장의 {jungje_pct:.0f}%가 알약 형태인 정제/캡슐입니다. 하지만 소비자 리뷰 분석 결과 '구미' 제형에 대한 선호도가 월등히 높게 나타납니다.</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
         
     with col_b:
-        st.markdown("<div class='card'><h3>🍒 시너지 원료 중요도 (TF-IDF)</h3>", unsafe_allow_html=True)
-        fig_ing = px.bar(x=['테아닌', '트립토판', '마그네슘', '비타민', 'GABA'], 
-                        y=[18, 18, 15, 13, 10],
-                        title='제품명 및 홍보문구 텍스트 마이닝 결과', 
+        st.markdown("<div class='card'><h3>🍒 주요 시너지 원료 빈도 분석</h3>", unsafe_allow_html=True)
+        # 동적 계산 (Dynamic calculation from text mining)
+        ingredients_text = " ".join(df_products['ingredients'].fillna('') + " " + df_products['active_ingredients'].fillna('') + " " + df_products['product_name'].fillna(''))
+        keywords = ['타트체리', '비타민', '마그네슘', '트립토판', '테아닌', '가바(GABA)']
+        counts = [
+            ingredients_text.count('타트체리'), ingredients_text.count('비타민'),
+            ingredients_text.count('마그네슘'), ingredients_text.count('트립토판'),
+            ingredients_text.count('테아닌'), ingredients_text.count('GABA') + ingredients_text.count('가바')
+        ]
+        fig_ing = px.bar(x=keywords, y=counts,
+                        title='Top 80 제품 원료/홍보문구 텍스트 추출 (실시간 DB)', 
+                        labels={'x': '주요 시너지 원료', 'y': '언급 빈도수'},
                         template='plotly_white', color_discrete_sequence=['#06b6d4'])
         st.plotly_chart(fig_ing, use_container_width=True)
-        st.markdown("<div class='script-box'>\"단순 멜라토닌 함량 경쟁보다는 테아닌, 트립토판 등 수면 시너지를 극대화하는 성분 배합이 소비자 구매 결정의 핵심 요인으로 분석되었습니다.\"</div>", unsafe_allow_html=True)
+        st.markdown("<div class='script-box'>\"단순 멜라토닌 함량 경쟁보다는 타트체리, 트립토판 등 수면 시너지를 극대화하는 성분 배합이 상위 80개 제품 시장에서 핵심 요인으로 분석되었습니다.\"</div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='card'><h3>💰 가격 및 리뷰 상관관계 분석</h3>", unsafe_allow_html=True)
