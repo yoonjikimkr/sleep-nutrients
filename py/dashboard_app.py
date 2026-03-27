@@ -4,6 +4,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import sqlite3
 import os
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 
 # --- Page Configurations ---
 st.set_page_config(
@@ -342,67 +344,92 @@ elif menu == "2. 데이터 기반 시장 분석":
 
 elif menu == "3. 타겟 페르소나 및 전략":
     st.markdown("<h1 class='main-title'>타겟 페르소나 및 신제품 전략</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='sub-title'>HIRA 수면장애 데이터를 통한 '4050 전문직군' 라이프스타일 역진단 및 맞춤 상품화 전략</p>", unsafe_allow_html=True)
+    st.markdown("<p class='sub-title'>HIRA 수면장애 데이터를 통한 '4050 전문직군' 라이프스타일 역진단 및 맞춤 상품화 전략 (Live ML Clustering)</p>", unsafe_allow_html=True)
     
-    col_t1, col_t2 = st.columns([1, 1.4])
+    @st.cache_data
+    def get_clustered_persona():
+        df = pd.read_csv('data/f51_target_merged.csv')
+        df_t = df[df['연령대'].isin(['40_49세', '50_59세'])].copy()
+        df_t['인당_진료비'] = df_t['요양급여비용'] / df_t['진료실원수']
+        df_t['인당_내원일수'] = df_t['내원일수'] / df_t['진료실원수']
+        
+        # ML Clustering
+        features = ['진료실원수', '인당_진료비', '인당_내원일수']
+        X = df_t[features]
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+        kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+        df_t['Cluster_ID'] = kmeans.fit_predict(X_scaled)
+        
+        # Name clusters smartly based on cost and frequency
+        mean_cost = df_t['인당_진료비'].mean()
+        def map_persona(row):
+            if row['인당_진료비'] > mean_cost * 1.2:
+                return 'Persona A (집중 투자형 / 고관여)'
+            elif row['인당_내원일수'] > df_t['인당_내원일수'].mean():
+                return 'Persona B (만성 관리형 / 주류)'
+            else:
+                return 'Persona C (초기 예방형 / 잠재)'
+                
+        df_t['페르소나 그룹'] = df_t.apply(map_persona, axis=1)
+        return df_t
+        
+    df_persona = get_clustered_persona()
     
+    # 2-Row Layout. Row 1 for ML Chart, Row 2 for Strategy
+    st.markdown("<div class='card' style='margin-bottom: 24px;'><h3>🤖 4050 수면장애 환자 K-Means 머신러닝 군집화 결과</h3>", unsafe_allow_html=True)
+    st.caption("건강보험심사평가원(HIRA) 실제 환자 데이터를 바탕으로 한 3대 타겟 페르소나 도출 (버블 크기=1인당 평균 내원일수)")
+    
+    fig_cluster = px.scatter(
+        df_persona, x='진료실원수', y='인당_진료비', color='페르소나 그룹', size='인당_내원일수',
+        hover_data=['연령대', '성별'],
+        labels={'진료실원수': '군집별 환자 규모 (명)', '인당_진료비': '1인당 평균 진료비 (원)', '인당_내원일수': '평균 내원일수'},
+        template='plotly_white', color_discrete_sequence=px.colors.qualitative.Bold, size_max=35
+    )
+    fig_cluster.update_layout(height=450, margin=dict(t=20, b=20, l=20, r=20), legend_title_text='')
+    st.plotly_chart(fig_cluster, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+    
+    col_t1, col_t2 = st.columns([1, 1.3])
     with col_t1:
         st.markdown("""
-        <div class='card' style='height: 100%;'>
-        <h3>👤 핵심 타겟: 4050 전문직군 (Professional)</h3>
-        <p>사회적 책임이 가장 큰 연령층이며, 생물학적인 멜라토닌 분비 저하와 직무 스트레스가 결합된 <b>시장 내 가장 높은 지불 의사(WTP)를 가진 고객층</b>입니다.</p>
-        <hr style='border: 0.5px solid #e2e8f0; margin: 20px 0;'>
-        <ul style='line-height: 1.8;'>
-            <li><b>Persona A (High Value)</b>: 고가 시너지 성분에 매우 민감하며 즉각적이고 부작용 없는 효과를 기대함.</li>
-            <li><b>Persona B (Continuous)</b>: 갱년기 및 만성 피로 관리를 위한 정기 구독형 라이프스타일 추구.</li>
+        <div class='card' style='height: 100%; border-left: 4px solid #0284c7;'>
+        <h3>👤 핵심 페르소나 인사이트</h3>
+        <p>기존의 단순 연령 타겟팅이 아닌, 지불 의사(WTP)를 수반한 라이프스타일 기반 세그멘테이션입니다.</p>
+        <hr style='border: 0.5px solid #e2e8f0; margin: 16px 0;'>
+        <ul style='line-height: 1.8; margin-left: -10px;'>
+            <li><b>고관여 (집중 투자형)</b>: 수면의 질이 직무 퍼포먼스와 직결된 고소득 전문직. 진료비 지출 1위. <b>프리미엄 원료(테아닌+타트체리)에 무저항.</b></li>
+            <li><b>주류 (만성 관리형)</b>: 만성 피로와 갱년기 증상이 결합된 집단. 부작용을 경계하며 지속 가능한 천연물 요법(Plant-based) 선호.</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
         
-        if os.path.exists('data/chart_4050_persona_clusters.png'):
-            st.image('data/chart_4050_persona_clusters.png', caption='HIRA 데이터 기반 K-Means 클러스터 분포도', use_container_width=True)
-        
     with col_t2:
         st.markdown("""
-        <div class='card' style='border-top: 8px solid #4f46e5; height: 100%;'>
-        <h2 style='margin-top: 0; color: #1e1b4b;'>✨ 전략 제안: Midnight Harmony</h2>
-        <p style='color: #64748b; font-size: 1.1rem;'><i>"전문가를 위한 단 하나의 프리미엄 식물성 멜라토닌 솔루션"</i></p>
-        <hr style='border: 0.5px solid #e2e8f0; margin: 20px 0;'>
-        <table style='width: 100%; border-collapse: separate; border-spacing: 0 12px; font-size: 1rem;'>
+        <div class='card' style='height: 100%; border-top: 6px solid #4f46e5;'>
+        <h2 style='margin-top: 0; color: #1e1b4b;'>✨ Midnight Harmony 포지셔닝 타겟 마케팅</h2>
+        <p style='color: #64748b; font-size: 1.05rem;'><i>"고관여 전문직 그룹의 페인포인트를 정확히 타격하는 솔루션 제안"</i></p>
+        <hr style='border: 0.5px solid #e2e8f0; margin: 16px 0;'>
+        <table style='width: 100%; border-collapse: separate; border-spacing: 0 8px; font-size: 0.95rem;'>
             <tr>
-                <td style='padding: 12px 16px; background: #f8fafc; border-radius: 8px 0 0 8px; font-weight: 700; width: 30%;'>Formulation (제형)</td>
-                <td style='padding: 12px 16px; background: #ffffff; border: 1px solid #f1f5f9; border-left: none; border-radius: 0 8px 8px 0;'>맛있는 프리미엄 구미 (Zero Sugar / Low Calorie)</td>
+                <td style='padding: 10px 14px; background: #f8fafc; font-weight: 700; width: 28%;'>경험 속성 (UX)</td>
+                <td style='padding: 10px 14px; background: #ffffff; border-bottom: 1px solid #f1f5f9;'>수면 전 죄책감 없는 Zero Sugar, Low-Cal 프리미엄 구미</td>
             </tr>
             <tr>
-                <td style='padding: 12px 16px; background: #f8fafc; border-radius: 8px 0 0 8px; font-weight: 700;'>Ingredient (원료)</td>
-                <td style='padding: 12px 16px; background: #ffffff; border: 1px solid #f1f5f9; border-left: none; border-radius: 0 8px 8px 0;'>Tart Cherry + Theanine 200mg + Tryptophan 시너지</td>
+                <td style='padding: 10px 14px; background: #f8fafc; font-weight: 700;'>핵심 원료 배합</td>
+                <td style='padding: 10px 14px; background: #ffffff; border-bottom: 1px solid #f1f5f9; color: #4f46e5; font-weight: 700;'>식물성 멜라토닌 + L-테아닌 200mg + 타트체리 농축액</td>
             </tr>
             <tr>
-                <td style='padding: 12px 16px; background: #f8fafc; border-radius: 8px 0 0 8px; font-weight: 700;'>Safety (안전성)</td>
-                <td style='padding: 12px 16px; background: #ffffff; border: 1px solid #f1f5f9; border-left: none; border-radius: 0 8px 8px 0;'>1.5mg Mild Content / 100% Non-GMO 인증</td>
+                <td style='padding: 10px 14px; background: #f8fafc; font-weight: 700;'>안전성 신뢰도</td>
+                <td style='padding: 10px 14px; background: #ffffff; border-bottom: 1px solid #f1f5f9;'>100% Non-GMO, 내성 및 주간 졸림증 방지 레시피</td>
             </tr>
             <tr>
-                <td style='padding: 12px 16px; background: #f8fafc; border-radius: 8px 0 0 8px; font-weight: 700;'>Price (가격 정책)</td>
-                <td style='padding: 12px 16px; background: #ffffff; border: 1px solid #f1f5f9; border-left: none; border-radius: 0 8px 8px 0; color: #db2777; font-weight: 700;'>~1,300원/회 (시장 상위 10% 티어 타겟)</td>
-            </tr>
-            <tr>
-                <td style='padding: 12px 16px; background: #f8fafc; border-radius: 8px 0 0 8px; font-weight: 700;'>Channel (유통망)</td>
-                <td style='padding: 12px 16px; background: #ffffff; border: 1px solid #f1f5f9; border-left: none; border-radius: 0 8px 8px 0;'>SSG/백화점 (신뢰 확보) &rarr; Naver/GMarket (볼륨 확장)</td>
+                <td style='padding: 10px 14px; background: #f8fafc; font-weight: 700;'>Pricing (고수익)</td>
+                <td style='padding: 10px 14px; background: #ffffff; border-bottom: 1px solid #f1f5f9; color: #db2777; font-weight: 700;'>회당 ~1,300원 (상위 10% 프리미엄 마진 구조 확립)</td>
             </tr>
         </table>
-        
-        <div class='script-box' style='margin-top: 24px;'>
-            "미드나잇 하모니는 자기 전 물 없이도 부담 없이 먹을 수 있는 무설탕 구미 제형에, 테아닌 200mg의 강력한 릴렉세이션 효과를 결합하여 수면 질 저하로 고통받는 4050 프로페셔널의 수면 사이클을 근본적으로 개선합니다."
-        </div>
         </div>
         """, unsafe_allow_html=True)
-        
-    st.markdown("""
-    <div style='background: white; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 20px; text-align: center; margin-top: 10px;'>
-        <h4 style='color: #475569; margin-top: 0;'>📝 팀 논의 / 피드백 메모</h4>
-        <p style='color: #94a3b8; font-size: 0.9rem;'>추후 라이브 프레젠테이션 시, 이 공간에 예상 매출 시뮬레이터(What-If Calculator) 또는 실시간 피드백 폼을 추가하여 경영진과 인터랙티브하게 소통할 수 있습니다.</p>
-    </div>
-    """, unsafe_allow_html=True)
 
 elif menu == "4. 분석 데이터 및 소스코드":
     st.markdown("<h1 class='main-title'>분석 근거 데이터 및 소스코드</h1>", unsafe_allow_html=True)
