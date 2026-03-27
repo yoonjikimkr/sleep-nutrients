@@ -240,31 +240,31 @@ elif menu == "4. 분석 데이터 및 소스코드":
     <table style='width: 100%; border-collapse: collapse;'>
         <thead>
             <tr style='background: #f8fafc;'>
-                <th style='padding: 12px; text-align: left;'>Type</th>
-                <th style='padding: 12px; text-align: left;'>Resource Name</th>
-                <th style='padding: 12px; text-align: center;'>GitHub Link</th>
+                <th style='padding: 12px; text-align: left;'>구분</th>
+                <th style='padding: 12px; text-align: left;'>분석 자원</th>
+                <th style='padding: 12px; text-align: center;'>GitHub 바로가기</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>Analysis Script</td>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>4050 Target ML Analysis (K-Means)</td>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9; text-align: center;'><a href='{0}py/analyze_4050_public_ml.py' target='_blank' class='github-link'>View Code</a></td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>분석 스크립트</td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>4050 타겟 머신러닝 분석 (K-Means)</td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9; text-align: center;'><a href='{0}py/analyze_4050_public_ml.py' target='_blank' class='github-link'>코드 보기</a></td>
             </tr>
             <tr>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>database</td>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>Top 80 Products SQLite DB</td>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9; text-align: center;'><a href='{0}data/melatonin_topproducts.db' target='_blank' class='github-link'>Raw Data</a></td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>데이터베이스</td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>상위 80개 제품 SQLite DB</td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9; text-align: center;'><a href='{0}data/melatonin_topproducts.db' target='_blank' class='github-link'>DB 보기</a></td>
             </tr>
             <tr>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>Dataset</td>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>Naver DataLab Trends (CSV)</td>
-                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9; text-align: center;'><a href='{0}data/naver_datalab_trends.csv' target='_blank' class='github-link'>Cleaned CSV</a></td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>데이터셋</td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9;'>네이버 데이터랩 트렌드 (CSV)</td>
+                <td style='padding: 12px; border-bottom: 1px solid #f1f5f9; text-align: center;'><a href='{0}data/naver_datalab_trends.csv' target='_blank' class='github-link'>CSV 보기</a></td>
             </tr>
             <tr>
-                <td style='padding: 12px;'>Source Code</td>
-                <td style='padding: 12px;'>Streamlit Dashboard App</td>
-                <td style='padding: 12px; text-align: center;'><a href='{0}py/dashboard_app.py' target='_blank' class='github-link'>Python App</a></td>
+                <td style='padding: 12px;'>소스코드</td>
+                <td style='padding: 12px;'>Streamlit 대시보드 메인 앱</td>
+                <td style='padding: 12px; text-align: center;'><a href='{0}py/dashboard_app.py' target='_blank' class='github-link'>앱 코드 보기</a></td>
             </tr>
         </tbody>
     </table>
