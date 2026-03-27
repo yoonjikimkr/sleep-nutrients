@@ -4,6 +4,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 import sqlite3
 import os
+import re
+import itertools
+import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
@@ -550,26 +553,36 @@ elif menu == "4. 상품 심층 속성 및 리뷰 분석":
         """, unsafe_allow_html=True)
         
     st.markdown("### 🕸️ D. 핵심 원료 배합 시너지 네트워크 (Co-Occurrence Heatmap)")
-    st.caption("※ 시중 수면 영양제 제품들의 성분 교집합 횟수(Co-occurrence)를 매트릭스화 하였습니다. 마우스를 올려 특정 성분 간의 조합 시너지 우위를 직접 확인하세요.")
+    st.caption("※ Top 80 수면 영양제 제품들의 성분 교집합 횟수(Co-occurrence)를 실시간으로 매트릭스화 하였습니다. 마우스를 올려 조합 시너지 우위를 직접 확인하세요.")
     
-    # Load Co-occurrence Matrix
-    if os.path.exists('data/ingredient_cross_analysis.csv'):
-        df_cross = pd.read_csv('data/ingredient_cross_analysis.csv', index_col=0)
-        # We might have too many cols, let's keep top 10 for neat visualization
-        top_ingredients = df_cross.sum().nlargest(12).index
-        df_cross_top = df_cross.loc[top_ingredients, top_ingredients]
-        
+    # Dynamic Co-occurrence Matrix Generation
+    target_ingredients = ['마그네슘', '테아닌', '트립토판', '타트체리', '가바', '아슈와간다', '레몬밤', '캐모마일', '발레리안']
+    matrix = pd.DataFrame(0, index=target_ingredients, columns=target_ingredients)
+    
+    for _, row in df_deep.iterrows():
+        ing_text = str(row['ingredients_list']) + " " + str(row['product_name']) + " " + str(row['active_ingredients'])
+        found = [ing for ing in target_ingredients if ing in ing_text]
+        for pair in itertools.combinations(found, 2):
+            if pair[0] != pair[1]:
+                matrix.loc[pair[0], pair[1]] += 1
+                matrix.loc[pair[1], pair[0]] += 1
+                
+    # Filter out ingredients that have 0 co-occurrences with everything to keep the chart clean
+    active_mask = matrix.sum() > 0
+    matrix_active = matrix.loc[active_mask, active_mask]
+    
+    if not matrix_active.empty:
         fig_heat = px.imshow(
-            df_cross_top, 
+            matrix_active, 
             text_auto=".0f", 
             aspect="auto",
             color_continuous_scale="BuPu",
-            labels=dict(x="배합 원료 1", y="배합 원료 2", color="동시 함유 제품 수")
+            labels=dict(x="배합 원료 1", y="배합 원료 2", color="동시 함유 횟수")
         )
-        fig_heat.update_layout(height=500, margin=dict(t=30, b=30, l=30, r=30))
+        fig_heat.update_layout(height=450, margin=dict(t=30, b=30, l=30, r=30))
         st.plotly_chart(fig_heat, use_container_width=True)
     else:
-        st.info("시너지 매트릭스 데이터를 찾을 수 없습니다.")
+        st.info("현재 제품군에서 분석 가능한 주요 성분 교집합 데이터가 부족합니다.")
 
 elif menu == "5. 분석 데이터 및 소스코드":
     st.markdown("<h1 class='main-title'>분석 근거 데이터 및 소스코드</h1>", unsafe_allow_html=True)
