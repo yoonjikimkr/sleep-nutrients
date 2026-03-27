@@ -129,15 +129,15 @@ if menu == "1. 시장 개요 및 트렌드":
     
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.markdown("<div class='card text-center'><div class='metric-label'>글로벌 시장규모 (2025 전망)</div><div class='metric-value'>$1.89B</div><div style='font-size: 0.8rem; color: #64748b;'>(2031년 3.22B 성장 전망)</div></div>", unsafe_allow_html=True)
+        st.markdown("<div class='card text-center'><div class='metric-label'>글로벌 시장규모 (2026 전망)</div><div class='metric-value'>$2.07B</div><div style='font-size: 0.8rem; color: #64748b;'>(2031년 3.22B 성장 전망)</div></div>", unsafe_allow_html=True)
     with col2:
         st.markdown("<div class='card text-center'><div class='metric-label'>연평균 성장률(CAGR)</div><div class='metric-value'>9.28%</div></div>", unsafe_allow_html=True)
     with col3:
-        st.markdown("<div class='card text-center'><div class='metric-label'>분석 대상 로우 데이터</div><div class='metric-value'>80개</div></div>", unsafe_allow_html=True)
+        st.markdown("<div class='card text-center'><div class='metric-label'>분석 대상 raw data</div><div class='metric-value'>80개</div></div>", unsafe_allow_html=True)
     with col4:
         st.markdown("<div class='card text-center'><div class='metric-label'>핵심 타겟 Demographic</div><div class='metric-value'>4050대</div></div>", unsafe_allow_html=True)
 
-    st.markdown("<div class='script-box'>\"현재 글로벌 멜라토닌 시장은 2031년까지 약 32억 달러 규모로 성장이 예상되며, 특히 한국 시장은 수면장애 환자 급증에 따른 폭발적 수요가 감지되고 있습니다.\"</div>", unsafe_allow_html=True)
+    st.markdown("<div class='script-box'>\"현재 글로벌 멜라토닌 시장은 2025년 18.9억 달러를 기록하여 2026년 20.7억 달러를 전망, 2031년까지 약 32억 달러 규모로 성장이 예상되며, 특히 한국 시장은 수면장애 환자 급증에 따른 폭발적 수요가 감지되고 있습니다.\"</div>", unsafe_allow_html=True)
 
     # Search Trend
     st.markdown("<div class='card'><h3>📈 '멜라토닌' 검색 관심도 (네이버 데이터랩 API)</h3>", unsafe_allow_html=True)
@@ -293,4 +293,4 @@ elif menu == "4. 분석 데이터 및 소스코드":
 
 # --- Footer ---
 st.markdown("---")
-st.markdown("<p style='text-align: center; color: #94a3b8; font-size: 0.8rem;'>© 2026 Antigravity Strategy Lab | BA Project | 7:40 PM Slide Notes Synced</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #94a3b8; font-size: 0.8rem;'>© 2026 Sleep Nutrients Business Analysis </p>", unsafe_allow_html=True)
