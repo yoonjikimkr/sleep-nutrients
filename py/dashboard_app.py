@@ -231,7 +231,7 @@ elif menu == "3. 타겟 페르소나 및 전략":
         """, unsafe_allow_html=True)
 
 elif menu == "4. 분석 데이터 및 소스코드":
-    st.markdown("<h1 class='main-title'>Analytics Evidence & Source Code</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='main-title'>분석 근거 데이터 및 소스코드</h1>", unsafe_allow_html=True)
     
     st.markdown("""
     <div class='card'>
