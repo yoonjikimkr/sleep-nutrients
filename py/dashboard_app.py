@@ -344,12 +344,27 @@ elif menu == "2. 데이터 기반 시장 분석":
 
 elif menu == "3. 타겟 페르소나 및 전략":
     st.markdown("<h1 class='main-title'>타겟 페르소나 및 신제품 전략</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='sub-title'>HIRA 수면장애 데이터를 통한 '4050 전문직군' 라이프스타일 역진단 및 맞춤 상품화 전략 (Live ML Clustering)</p>", unsafe_allow_html=True)
+    st.markdown("<p class='sub-title'>HIRA 수면장애 데이터를 통한 연령대별 라이프스타일 역진단 및 맞춤 상품화 전략 (Live ML Clustering)</p>", unsafe_allow_html=True)
+    
+    # Dynamic Age Target Selector
+    age_target_label = st.selectbox(
+        "🎯 분석 대상 연령대 선택",
+        ["4050 전문직군 (Core Target)", "2030 예방/스트레스군", "3040 직장인/워킹맘", "6070 시니어/만성질환군"]
+    )
+    
+    age_map = {
+        "2030 예방/스트레스군": ['20_29세', '30_39세'],
+        "3040 직장인/워킹맘": ['30_39세', '40_49세'],
+        "4050 전문직군 (Core Target)": ['40_49세', '50_59세'],
+        "6070 시니어/만성질환군": ['60_69세', '70_79세']
+    }
+    
+    selected_ages = age_map[age_target_label]
     
     @st.cache_data
-    def get_clustered_persona():
+    def get_clustered_persona(ages):
         df = pd.read_csv('data/f51_target_merged.csv')
-        df_t = df[df['연령대'].isin(['40_49세', '50_59세'])].copy()
+        df_t = df[df['연령대'].isin(ages)].copy()
         df_t['인당_진료비'] = df_t['요양급여비용'] / df_t['진료실원수']
         df_t['인당_내원일수'] = df_t['내원일수'] / df_t['진료실원수']
         
@@ -374,17 +389,17 @@ elif menu == "3. 타겟 페르소나 및 전략":
         df_t['페르소나 그룹'] = df_t.apply(map_persona, axis=1)
         return df_t
         
-    df_persona = get_clustered_persona()
+    df_persona = get_clustered_persona(selected_ages)
     
     # 2-Row Layout. Row 1 for ML Chart, Row 2 for Strategy
-    st.markdown("<div class='card' style='margin-bottom: 24px;'><h3>🤖 4050 수면장애 환자 K-Means 머신러닝 군집화 결과</h3>", unsafe_allow_html=True)
-    st.caption("건강보험심사평가원(HIRA) 실제 환자 데이터를 바탕으로 한 3대 타겟 페르소나 도출 (버블 크기=1인당 평균 내원일수)")
+    st.markdown(f"<div class='card' style='margin-bottom: 24px; margin-top: 10px;'><h3>🤖 {age_target_label} K-Means 머신러닝 군집화 결과</h3>", unsafe_allow_html=True)
+    st.caption(f"건강보험심사평가원(HIRA) 실제 환자 데이터({selected_ages[0]}, {selected_ages[1]})를 바탕으로 한 3대 타겟 페르소나 도출 (버블 크기=1인당 평균 내원일수)")
     
     fig_cluster = px.scatter(
         df_persona, x='진료실원수', y='인당_진료비', color='페르소나 그룹', size='인당_내원일수',
         hover_data=['연령대', '성별'],
         labels={'진료실원수': '군집별 환자 규모 (명)', '인당_진료비': '1인당 평균 진료비 (원)', '인당_내원일수': '평균 내원일수'},
-        template='plotly_white', color_discrete_sequence=px.colors.qualitative.Bold, size_max=35
+        template='plotly_white', color_discrete_sequence=px.colors.qualitative.Bold, size_max=40
     )
     fig_cluster.update_layout(height=450, margin=dict(t=20, b=20, l=20, r=20), legend_title_text='')
     st.plotly_chart(fig_cluster, use_container_width=True)
@@ -533,6 +548,28 @@ elif menu == "4. 상품 심층 속성 및 리뷰 분석":
         </ul>
         </div>
         """, unsafe_allow_html=True)
+        
+    st.markdown("### 🕸️ D. 핵심 원료 배합 시너지 네트워크 (Co-Occurrence Heatmap)")
+    st.caption("※ 시중 수면 영양제 제품들의 성분 교집합 횟수(Co-occurrence)를 매트릭스화 하였습니다. 마우스를 올려 특정 성분 간의 조합 시너지 우위를 직접 확인하세요.")
+    
+    # Load Co-occurrence Matrix
+    if os.path.exists('data/ingredient_cross_analysis.csv'):
+        df_cross = pd.read_csv('data/ingredient_cross_analysis.csv', index_col=0)
+        # We might have too many cols, let's keep top 10 for neat visualization
+        top_ingredients = df_cross.sum().nlargest(12).index
+        df_cross_top = df_cross.loc[top_ingredients, top_ingredients]
+        
+        fig_heat = px.imshow(
+            df_cross_top, 
+            text_auto=".0f", 
+            aspect="auto",
+            color_continuous_scale="BuPu",
+            labels=dict(x="배합 원료 1", y="배합 원료 2", color="동시 함유 제품 수")
+        )
+        fig_heat.update_layout(height=500, margin=dict(t=30, b=30, l=30, r=30))
+        st.plotly_chart(fig_heat, use_container_width=True)
+    else:
+        st.info("시너지 매트릭스 데이터를 찾을 수 없습니다.")
 
 elif menu == "5. 분석 데이터 및 소스코드":
     st.markdown("<h1 class='main-title'>분석 근거 데이터 및 소스코드</h1>", unsafe_allow_html=True)
