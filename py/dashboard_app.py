@@ -173,7 +173,7 @@ elif menu == "2. 데이터 기반 시장 분석":
         form_counts = df_form['formulation'].value_counts()
         
         fig_pie = px.pie(names=form_counts.index, values=form_counts.values, 
-                         title='네이버/SSG 80개 상위 제품군 분석 (실시간 DB)', hole=0.4, template='plotly_white',
+                         title='네이버/SSG 80개 상위 제품군 분석', hole=0.4, template='plotly_white',
                          color_discrete_sequence=px.colors.qualitative.Prism)
         st.plotly_chart(fig_pie, use_container_width=True)
         jungje_pct = (form_counts.get('정제/캡슐', 0) / len(df_form)) * 100
@@ -191,7 +191,7 @@ elif menu == "2. 데이터 기반 시장 분석":
             ingredients_text.count('테아닌'), ingredients_text.count('GABA') + ingredients_text.count('가바')
         ]
         fig_ing = px.bar(x=keywords, y=counts,
-                        title='Top 80 제품 원료/홍보문구 텍스트 추출 (실시간 DB)', 
+                        title='Top 80 제품 원료/홍보문구 텍스트 추출', 
                         labels={'x': '주요 시너지 원료', 'y': '언급 빈도수'},
                         template='plotly_white', color_discrete_sequence=['#06b6d4'])
         st.plotly_chart(fig_ing, use_container_width=True)
