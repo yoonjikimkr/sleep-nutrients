@@ -16,11 +16,11 @@ DATA_DIR = os.path.join(os.path.dirname(BASE_DIR), "data")
 IHERB_CSV = os.path.join(DATA_DIR, "iherb_sleep_products_detailed.csv")
 NAVER_SHOP_PATTERN = os.path.join(DATA_DIR, "shop_*.csv")
 
-# 1. 3040 직장인 관련 키워드 정의
-TARGET_KEYWORDS_ENG = ['stress', 'relaxation', 'calm', 'relax', 'anxiety', 'cortisol', 'adrenal', 'mood', 'focus']
-TARGET_KEYWORDS_KOR = ['직장인', '스트레스', '회사', '업무', '회사원', '공부', '야근', '피로', '수험생']
+# 1. 4050 중년 수면 관련 키워드 정의
+TARGET_KEYWORDS_ENG = ['stress', 'relaxation', 'calm', 'relax', 'anxiety', 'cortisol', 'adrenal', 'mood', 'menopause', 'fatigue', 'midlife']
+TARGET_KEYWORDS_KOR = ['중년', '갱년기', '만성피로', '스트레스', '수면 유지', '4050', '피로', '호르몬', '야간각성']
 
-# 2. 3040 타겟 핵심 성분 (Winning Formula 후보군)
+# 2. 4050 타겟 핵심 성분 (Winning Formula 후보군)
 TARGET_INGS_MAP = {
     'magnesium': ['마그네슘', 'magnesium'],
     'theanine': ['테아닌', 'theanine'],
@@ -33,7 +33,7 @@ TARGET_INGS_MAP = {
 }
 
 def analyze_3040_strategy():
-    print("🚀 [심층 분석] 3040 한국 직장인 스트레스/수면 타겟 트렌드 (키워드 vs 성분 타겟팅 비교)")
+    print("🚀 [심층 분석] 4050 수면 시장 타겟 트렌드 (키워드 vs 성분 타겟팅 비교)")
     print("-" * 60)
     
     # --- Part 1. iHerb 글로벌 트렌드 ---
@@ -62,7 +62,7 @@ def analyze_3040_strategy():
     df_iherb_ing = df_iherb[mask_iherb_ing].copy()
     
     print(f"🌍 [iHerb 글로벌 타겟팅 트렌드]")
-    print(f"  - 🎯 '스트레스/이완' 키워드 마케팅 제품: {len(df_iherb_kw)}개")
+    print(f"  - 🎯 '중년/갱년기/만성피로' 키워드 마케팅 제품: {len(df_iherb_kw)}개")
     print(f"  - 🌿 '핵심 타겟 성분' 실질 포함 제품: {len(df_iherb_ing)}개")
     print(f"  👉 인사이트: 글로벌 시장은 {len(df_iherb_ing)/len(df_iherb)*100:.1f}%의 제품이 핵심 성분을 포함하고 있으나,")
     print(f"     전용 키워드를 사용하는 비율은 {len(df_iherb_kw)/len(df_iherb_ing)*100:.1f}%에 불과함. (성분 중심 소구)")
@@ -95,7 +95,7 @@ def analyze_3040_strategy():
     df_naver_ing = df_naver[mask_naver_ing]
     
     print(f"\n🇰🇷 [Naver 국내 타겟팅 트렌드 및 프라이싱 비교]")
-    print(f"  - 🎯 '스트레스/직장인' 키워드 중심 마케팅: {len(df_naver_kw)}개")
+    print(f"  - 🎯 '중년/갱년기/만성피로' 키워드 중심 마케팅: {len(df_naver_kw)}개")
     print(f"  - 🌿 '핵심 타겟 성분' 노출/포함 제품: {len(df_naver_ing)}개")
     
     def get_price_info(df_target):
@@ -115,8 +115,8 @@ def analyze_3040_strategy():
     print(price_summary.to_markdown(index=False))
     
     print(f"\n📌 분석 결과: 국내 시장은 키워드 기반 제품의 평균가가 약 {kw_avg - ing_avg:,.0f}원 더 높게 형성되어 있음.")
-    print(f"   이는 3040 직장인 타겟의 '페인포인트(스트레스)' 해결에 더 높은 프리미엄이 붙어 있음을 시사함.")
-    print(f"   Winning Strategy: '핵심 성분 배합'의 전문성과 '스트레스 해소' 키워드를 결합할 때 최고가 전략 가능.")
+    print(f"   이는 4050 중년 타겟의 '페인포인트(갱년기/만성피로)' 해결에 더 높은 프리미엄이 붙어 있음을 시사함.")
+    print(f"   Winning Strategy: '핵심 성분 배합'의 전문성과 '갱년기 수면 관리' 키워드를 결합할 때 최고가 전략 가능.")
 
     # --- Part 3. 시각화 개선 (iHerb 성분 조합) ---
     major_ingredients = list(TARGET_INGS_MAP.keys()) + ['chamomile', 'glycine', 'melatonin']
@@ -135,7 +135,7 @@ def analyze_3040_strategy():
         pair_labels = [f"{p[0]}+{p[1]}" for p, c in pair_counts]
         pair_values = [c for p, c in pair_counts]
         sns.barplot(x=pair_values, y=pair_labels, palette='viridis')
-        plt.title('3040 핵심 성분 포함 제품 내 주용 성분 조합 TOP 10 (iHerb)', fontsize=14)
+        plt.title('4050 핵심 성분 포함 제품 내 주요 성분 조합 TOP 10 (iHerb)', fontsize=14)
         plt.xlabel('사용 빈도 (개수)')
         plt.tight_layout()
         plt.savefig(chart_path, dpi=300)
